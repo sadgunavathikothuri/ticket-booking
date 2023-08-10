@@ -1,0 +1,15 @@
+For the production deployment of the application stack, you would have the following components:
+
+Application Server(s): Running Docker containers with your Python application. These containers are orchestrated and managed by Kubernetes.
+
+Kubernetes Cluster: A set of nodes (servers) that run your application containers. Kubernetes manages scaling, load balancing, and failover.
+
+Load Balancer/Ingress Controller: Routes external traffic to the appropriate application instances inside the Kubernetes cluster.
+
+Database Server (MongoDB): Contains your application's data. It's a separate service that the application communicates with.
+
+MongoDB Backup and Cloud Storage: Your shell script periodically backs up the MongoDB data and uploads it to cloud storage (e.g., Amazon S3, GCP Cloud Storage).
+
+Jenkins: Manages the build and deployment process. The Jenkins pipeline builds the Docker image, deploys it to Kubernetes, and can trigger MongoDB backups.
+
+DevOps Tools: Git repository for source code management, Docker for containerization, Kubernetes for orchestration, and cloud provider services (AWS, GCP) for hosting resources.
