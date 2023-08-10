@@ -23,7 +23,7 @@ pipeline{
         }
         stage(' deploy to k8s'){
             steps{
-                sh 'aws eks update-kubeconfig --region us-east-1 --name sadguna'
+                sh 'aws eks update-kubeconfig --region us-east-1 --name shiva'
                 sh 'kubectl apply -f deployment.yaml'
             }
         }
