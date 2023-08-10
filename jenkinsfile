@@ -1,0 +1,31 @@
+pipeline{
+    agent any
+    stages{
+        stage('clone'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sadgunavathikothuri/ticket-booking.git']])
+            }
+        }
+        stage('build'){
+            steps{
+                sh 'mvn package'
+            }
+        }
+        stage('docker build&push'){
+            steps{
+                script{
+                    withDockerRegistry(credentialsId: 'docker') {
+                        sh 'docker build -t sadguna/dockerjenkin:v1.0.0 .'
+                        sh 'docker push sadguna/dockerjenkin:v1.0.0'
+                    }
+                }
+            }
+        }
+        stage(' deploy to k8s'){
+            steps{
+                sh 'aws eks update-kubeconfig --region us-east-1 --name sadguna'
+                sh 'kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+}
